@@ -16,7 +16,7 @@ class PersonController extends Controller
     {
         $this->middleware('auth');
     }
-    
+
     /**
      * Display a listing of the resource.
      *
@@ -24,7 +24,8 @@ class PersonController extends Controller
      */
     public function index()
     {
-        return view('person.index');
+        $people = Person::paginate(10);
+        return view('person.index', compact('people'));
     }
 
     /**

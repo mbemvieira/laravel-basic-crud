@@ -1,4 +1,4 @@
-@extends('layout')
+@extends('layouts.layout')
 @section('content')
 
 <div class="container">
@@ -26,17 +26,25 @@
             <th>CPF</th>
             <th>Curso</th>
             <th>Instituição</th>
+            <th>Ações</th>
         </tr>
         </thead>
         <tbody>
+        @foreach($people as $person)
         <tr>
-            <td>Mateus</td>
-            <td>12341234</td>
-            <td>Engenharia da Computação</td>
-            <td>UNIFEI</td>
+            <td>{{ $person->name }}</td>
+            <td>{{ $person->cpf }}</td>
+            <td>{{ $person->course }}</td>
+            <td>{{ $person->institution }}</td>
+            <td>E/D</td>
         </tr>
+        @endforeach
         </tbody>
         </table>
+
+        <!-- Create links for Pagination -->
+		{{ $people->links() }}
+		<!-- /Create links for Pagination -->
     </div>
     </div>
 

@@ -22,11 +22,11 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
             </button>
-            <a class="navbar-brand" href="#">{{ config('app.name', 'Projeto') }}</a>
+            <a class="navbar-brand" href="{{ route('person.index') }}">{{ config('app.name', 'Projeto') }}</a>
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
-                <li class="active"><a href="#">Home</a></li>
+                <li class="active"><a href="{{ route('person.index') }}">Home</a></li>
             </ul>
             <ul class="nav navbar-nav navbar-right">
                 <li class="active">

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Person;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class PersonController extends Controller
 {
@@ -24,7 +25,7 @@ class PersonController extends Controller
      */
     public function index()
     {
-        $people = Person::paginate(10);
+        $people = Person::orderBy('created_at', 'desc')->paginate(10);
         return view('person.index', compact('people'));
     }
 
@@ -35,7 +36,7 @@ class PersonController extends Controller
      */
     public function create()
     {
-        //
+        return view('person.create');
     }
 
     /**
@@ -46,7 +47,25 @@ class PersonController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'cpf' => 'required|digits_between:4,11|unique:people',
+            'course' => 'required|string|max:255',
+            'institution' => 'required|string|max:255',
+        ]);
+
+        $person = new Person;
+
+        $person->user_id = Auth::id();
+        $person->name = $request->has('name') ? $request->input('name') : '';
+        $person->cpf = $request->has('cpf') ? $request->input('cpf') : '00000000000';
+        $person->course = $request->has('course') ? $request->input('course') : '';
+        $person->institution = $request->has('institution') ? $request->input('institution') : '';
+
+        $person->save();
+
+        $request->session()->flash('alert-success', 'Pessoa adicionada com sucesso!');
+        return back();
     }
 
     /**
@@ -68,7 +87,7 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
-        //
+        return view('person.edit', compact('person'));
     }
 
     /**
@@ -80,7 +99,8 @@ class PersonController extends Controller
      */
     public function update(Request $request, Person $person)
     {
-        //
+        $request->session()->flash('alert-success', 'Pessoa editada com sucesso!');
+        return back();
     }
 
     /**
@@ -91,6 +111,7 @@ class PersonController extends Controller
      */
     public function destroy(Person $person)
     {
-        //
+        $person->delete();
+        return back();
     }
 }

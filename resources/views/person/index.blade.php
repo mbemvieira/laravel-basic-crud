@@ -4,7 +4,7 @@
 <div class="container">
 
     <ol class="breadcrumb">
-    <li class="active">Home</li>
+        <li class="active">Home</li>
     </ol>
 
     <div class="panel panel-default">
@@ -18,6 +18,7 @@
 			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Adicionar Pessoa
 		</a></br>
 
+        <div>
         <!-- Table -->
         <table class="table table-hover table-bordered">
         <thead>
@@ -36,11 +37,19 @@
             <td>{{ $person->cpf }}</td>
             <td>{{ $person->course }}</td>
             <td>{{ $person->institution }}</td>
-            <td>E/D</td>
+            <td>
+            <div style="text-align: center;">
+            <a href="{{ route('person.edit', $person) }}" class="btn btn-warning glyphicon glyphicon-pencil"></a>
+            <a onclick="confirmation({{ $person->id }})" class="btn btn-danger glyphicon glyphicon-remove"></a>
+            {!! Form::open(['method' => 'DELETE', 'route' => ['person.destroy', $person], 'id' => 'delete-person-form_'.$person->id]) !!}
+            {!! Form::close() !!}
+            </div>
+            </td>
         </tr>
         @endforeach
         </tbody>
         </table>
+        </div>
 
         <!-- Create links for Pagination -->
 		{{ $people->links() }}
@@ -49,5 +58,13 @@
     </div>
 
 </div> <!-- /container -->
+
+<script>
+function confirmation($person_id) {
+	if (confirm("Deseja excluir este registro?")){
+		document.getElementById("delete-person-form_" + $person_id).submit();
+	}
+}
+</script>
     
 @stop

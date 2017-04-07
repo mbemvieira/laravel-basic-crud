@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Person;
+use App\Email;
+use App\Telephone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -64,6 +66,25 @@ class PersonController extends Controller
 
         $person->save();
 
+        for ($i = 0; $i < count($request->input('emails')); $i++) {
+            $email = new Email;
+
+            $email->email = $request->has('emails.'. $i .'.email') ?
+                $request->input('emails.'. $i .'.email') : '';
+            $email->person()->associate($person);
+            $email->save();
+        }
+
+        for ($i = 0; $i < count($request->input('phones')); $i++) {
+            $telephone = new Telephone;
+
+            $telephone->phone = $request->has('phones.'. $i .'.phone') ?
+                $request->input('phones.'. $i .'.phone') : '';
+            
+            $telephone->person()->associate($person);
+            $telephone->save();
+        }
+
         $request->session()->flash('alert-success', 'Pessoa adicionada com sucesso!');
         return back();
     }
@@ -99,6 +120,42 @@ class PersonController extends Controller
      */
     public function update(Request $request, Person $person)
     {
+        $this->validate($request, [
+            'name' => 'required|string|max:255',
+            'cpf' => 'required|digits_between:4,11|unique:people,cpf,'. $person->cpf .',cpf',
+            'course' => 'required|string|max:255',
+            'institution' => 'required|string|max:255',
+        ]);
+
+        $person->name = $request->has('name') ? $request->input('name') : '';
+        $person->cpf = $request->has('cpf') ? $request->input('cpf') : '00000000000';
+        $person->course = $request->has('course') ? $request->input('course') : '';
+        $person->institution = $request->has('institution') ? $request->input('institution') : '';
+
+        $person->save();
+
+        for ($i = 0; $i < count($request->input('emails')); $i++) {
+            $person->emails()->delete();
+            $email = new Email;
+
+            $email->email = $request->has('emails.'. $i .'.email') ?
+                $request->input('emails.'. $i .'.email') : '';
+            
+            $email->person()->associate($person);
+            $email->save();
+        }
+
+        for ($i = 0; $i < count($request->input('phones')); $i++) {
+            $person->phones()->delete();
+            $telephone = new Telephone;
+
+            $telephone->phone = $request->has('phones.'. $i .'.phone') ?
+                $request->input('phones.'. $i .'.phone') : '';
+            
+            $telephone->person()->associate($person);
+            $telephone->save();
+        }
+
         $request->session()->flash('alert-success', 'Pessoa editada com sucesso!');
         return back();
     }

@@ -56,9 +56,26 @@
         </div>
 
         <div class="form-group">
-        {!! Form::label('email', 'Email *') !!}
-        {!! Form::email('email', null, ['class' => 'form-control']) !!}
+        {!! Form::label('emails[0][email]', 'Email *') !!}
+        {!! Form::email('emails[0][email]', null, ['class' => 'form-control']) !!}
         </div>
+
+        <div class="form-group">
+        {!! Form::label('phones[0][phone]', 'Telephone *') !!}
+        {!! Form::text('phones[0][phone]', null, ['class' => 'form-control']) !!}
+        </div>
+
+        {{-- <div id="form-email">
+        <a type="button" class="btn btn-default" @click="addNewEmail">
+			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Email
+		</a></br>
+        <div class="form-group">
+        {!! Form::label('email', 'Email *') !!}
+        <template v-for="email in emails">
+            <input type="text" name="emails[]" v-model="email.email_address" class="form-control">
+        </template>
+        </div>
+        </div> --}}
 
         <div class="form-group">
         {!! Form::submit('Adicionar', ['class' => 'btn btn-primary']) !!}

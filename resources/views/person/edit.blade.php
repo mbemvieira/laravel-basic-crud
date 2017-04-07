@@ -56,8 +56,13 @@
         </div>
 
         <div class="form-group">
-        {!! Form::label('email', 'Email *') !!}
-        {!! Form::email('email', null, ['class' => 'form-control']) !!}
+        {!! Form::label('emails[0][email]', 'Email *') !!}
+        {!! Form::email('emails[0][email]', null, ['class' => 'form-control']) !!}
+        </div>
+
+        <div class="form-group">
+        {!! Form::label('phones[0][phone]', 'Telephone *') !!}
+        {!! Form::text('phones[0][phone]', null, ['class' => 'form-control']) !!}
         </div>
 
         <div class="form-group">
@@ -69,5 +74,5 @@
     </div>
 
 </div>
-    
+
 @endsection

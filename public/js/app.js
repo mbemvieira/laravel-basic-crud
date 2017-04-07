@@ -973,7 +973,22 @@ __webpack_require__(30);
 Vue.component('example', __webpack_require__(34));
 
 var app = new Vue({
-  el: '#app'
+    el: '#app'
+    /*el: '#form-email',
+    data: {
+        emails: [
+            {
+                email_address: 'faskdjfhlksjh'
+            }
+        ]
+    },
+    methods: {
+        addNewEmail: function(){
+            this.emails.push({
+                email_address: ''
+            });
+        }
+    }*/
 });
 
 /***/ }),

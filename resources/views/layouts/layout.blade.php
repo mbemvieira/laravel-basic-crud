@@ -5,10 +5,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
+    <!-- CSRF Token -->
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+
     <title>{{ config('app.name', 'Projeto') }}</title>
 
+    <!-- Scripts -->
+    <script>
+        window.Laravel = {!! json_encode([
+            'csrfToken' => csrf_token(),
+        ]) !!};
+    </script>
+
     <link href="{{ asset('css/app.css') }}" rel="stylesheet" type="text/css">
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" type="text/css">
 </head>
 <body>
 
@@ -47,5 +56,8 @@
     @yield('content')
 
     <script src="{{ asset('js/app.js') }}"></script>
+
+    @yield('scripts')
+    
 </body>
 </html>

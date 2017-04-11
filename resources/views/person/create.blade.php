@@ -26,12 +26,11 @@
     @endforeach
     </div><!-- /flash-message -->
 
-    <div class="panel panel-default">
-    <!-- Default panel contents -->
+    <div class="panel panel-default"><!-- Default panel contents -->
     <div class="panel-heading">
         <h3 class="panel-title">Adicionar Pessoa</h3>
     </div>
-    <div class="panel-body">
+    <div class="panel-body" id="form-app">
 
         {!! Form::open(['route' => 'person.store', 'method' => 'POST']) !!}
         
@@ -56,26 +55,38 @@
         </div>
 
         <div class="form-group">
-        {!! Form::label('emails[0][email]', 'Email *') !!}
-        {!! Form::email('emails[0][email]', null, ['class' => 'form-control']) !!}
+        {!! Form::label('emails', 'Email(s) *') !!}
+        <button type="button" @click="addNewEmail" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        <button type="button" @click="removeEmail" class="btn btn-warning">
+            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+        </button>
         </div>
 
+        <template v-for="(email, index) in emails">
         <div class="form-group">
-        {!! Form::label('phones[0][phone]', 'Telephone *') !!}
-        {!! Form::text('phones[0][phone]', null, ['class' => 'form-control']) !!}
+            <p>Email @{{ index + 1 }}</p>
+            <input type="text" :name="'emails['+ index +'][email]'" v-model="email.email_address" class="form-control">
         </div>
-
-        {{-- <div id="form-email">
-        <a type="button" class="btn btn-default" @click="addNewEmail">
-			<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> New Email
-		</a></br>
-        <div class="form-group">
-        {!! Form::label('email', 'Email *') !!}
-        <template v-for="email in emails">
-            <input type="text" name="emails[]" v-model="email.email_address" class="form-control">
         </template>
+
+        <div class="form-group">
+        {!! Form::label('phones', 'Telefone(s) *') !!}
+        <button type="button" @click="addNewPhone" class="btn btn-success">
+            <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+        </button>
+        <button type="button" @click="removePhone" class="btn btn-warning">
+            <span class="glyphicon glyphicon-minus" aria-hidden="true"></span>
+        </button>
         </div>
-        </div> --}}
+
+        <template v-for="(phone, index) in phones">
+        <div class="form-group">
+            <p>Telefone @{{ index + 1 }}</p>
+            <input type="text" :name="'phones['+ index +'][phone]'" v-model="phone.phone_number" class="form-control">
+        </div>
+        </template>
 
         <div class="form-group">
         {!! Form::submit('Adicionar', ['class' => 'btn btn-primary']) !!}
@@ -86,5 +97,53 @@
     </div>
 
 </div>
-    
+
+@endsection
+
+@section('scripts')
+
+<script>
+new Vue({
+    el: '#form-app',
+    data: {
+        emails: [
+            {
+                email_address: ''
+            }
+        ],
+        phones: [
+            {
+                phone_number: ''
+            }
+        ]
+    },
+    methods: {
+        addNewEmail() {
+            if (this.emails.length < 3) {
+                this.emails.push({
+                    email_address: ''
+                });
+            }
+        },
+        removeEmail() {
+            if (this.emails.length > 1) {
+                this.emails.pop();
+            }
+        },
+        addNewPhone() {
+            if (this.phones.length < 3) {
+                this.phones.push({
+                    phone_number: ''
+                });
+            }
+        },
+        removePhone() {
+            if (this.phones.length > 1) {
+                this.phones.pop();
+            }
+        },
+    }
+});
+</script>
+
 @endsection

@@ -16,7 +16,7 @@ class CreateTelephonesTable extends Migration
         Schema::create('telephones', function (Blueprint $table) {
             $table->increments('id');
             $table->integer('person_id')->unsined();
-            $table->foreign('person_id')->references('id')->on('people');
+            $table->foreign('person_id')->references('id')->on('people')->onDelete('cascade');
 
             $table->string('phone');
 

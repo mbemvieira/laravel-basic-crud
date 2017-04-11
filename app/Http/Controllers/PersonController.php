@@ -168,6 +168,8 @@ class PersonController extends Controller
      */
     public function destroy(Person $person)
     {
+        $person->emails()->delete();
+        $person->phones()->delete();
         $person->delete();
         return back();
     }

@@ -7,3 +7,8 @@
 
 // Bootstrap
 @import "node_modules/bootstrap-sass/assets/stylesheets/bootstrap";
+
+body {
+  min-height: 800px;
+  padding-top: 70px;
+}

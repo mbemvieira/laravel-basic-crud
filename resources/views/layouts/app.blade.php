@@ -79,9 +79,10 @@
         </nav>
 
         @yield('content')
-    </div>
 
-    <!-- Scripts -->
-    <script src="{{ asset('js/app.js') }}"></script>
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}"></script>
+        @yield('local-scripts')
+    </div>
 </body>
 </html>

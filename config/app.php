@@ -179,6 +179,11 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
 
+        /**
+         * Other Providers
+         */
+        Laravel\Scout\ScoutServiceProvider::class,
+
     ],
 
     /*

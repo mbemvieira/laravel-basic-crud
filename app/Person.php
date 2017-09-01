@@ -9,7 +9,7 @@ class Person extends Model
 {
     use Searchable;
 
-    public function administrator()
+    public function user()
     {
         return $this->belongsTo('App\User');
     }

@@ -13,7 +13,7 @@
     </div><!-- /Panel Heading -->
     <div class="panel-body"><!-- Panel Body -->
 
-      {{--  <a type="button" class="btn btn-primary btn-lg btn-block" href="{{ route('person.create') }}">
+      <a type="button" class="btn btn-primary btn-lg btn-block" href="{{ route('person.create') }}">
         <span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Adicionar Pessoa
       </a></br>
 
@@ -21,10 +21,10 @@
         <table class="table table-hover table-bordered">
           <thead>
             <tr>
-              <th><a href="#">Nome</a> <span class="glyphicon glyphicon-sort"></span></th>
-              <th><a href="#">CPF</a> <span class="glyphicon glyphicon-sort"></span></th>
-              <th><a href="#">Curso</a> <span class="glyphicon glyphicon-sort"></span></th>
-              <th><a href="#">Instituição</a> <span class="glyphicon glyphicon-sort"></span></th>
+              <th>Nome</th>
+              <th>CPF</th>
+              <th>Curso</th>
+              <th>Instituição</th>
               <th>Ações</th>
             </tr>
           </thead>
@@ -49,9 +49,9 @@
         </table>
       </div><!-- /Table -->
 
-		  {{ $people->links() }}<!-- Create links for Pagination -->  --}}
+		  {{ $people->links() }}<!-- Create links for Pagination -->
 
-      <ais-index
+      {{--  <ais-index
         app-id="{{ config('scout.algolia.id') }}"
         api-key="{{ env('ALGOLIA_SEARCH') }}"
         index-name="people"
@@ -103,7 +103,7 @@
           </template>
         </ais-no-results>
 
-      </ais-index>
+      </ais-index>  --}}
 
     </div><!-- /Panel Body -->
   </div><!-- /Panel -->

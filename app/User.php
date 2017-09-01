@@ -2,6 +2,8 @@
 
 namespace App;
 
+use App\Permission;
+use App\Role;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
@@ -30,5 +32,18 @@ class User extends Authenticatable
     public function people()
     {
         return $this->hasMany('App\Person');
+    }
+
+    public function roles()
+    {
+        return $this->belongsToMany('App\Role');
+    }
+
+    public function hasPermission(Permission $permission) {
+        if ( !$permission->roles->isEmpty() ) {
+            return ( $this->roles->intersect($permission->roles)
+                ->count() > 0 );
+        }
+        return false;
     }
 }

@@ -11,21 +11,21 @@ class PeopleStructuresSeeder extends Seeder
      */
     public function run()
     {
-        $admin = App\User::where('cpf', '12345678901')->first();
+        $users = App\User::get();
 
-        factory(App\Person::class, 20)->create([
-            'user_id' => $admin->id
-        ]);
-
-        $people = App\Person::all();
-
-        foreach ($people as $person) {
-            factory(App\Email::class, 2)->create([
-                'person_id' => $person->id
-            ]);
-            factory(App\Telephone::class, 2)->create([
-                'person_id' => $person->id
-            ]);
+        foreach ($users as $user) {
+            $user->people()->saveMany( factory(App\Person::class, 20)->make() );
         }
+
+        // $people = App\Person::all();
+
+        // foreach ($people as $person) {
+        //     factory(App\Email::class, 2)->create([
+        //         'person_id' => $person->id
+        //     ]);
+        //     factory(App\Telephone::class, 2)->create([
+        //         'person_id' => $person->id
+        //     ]);
+        // }
     }
 }

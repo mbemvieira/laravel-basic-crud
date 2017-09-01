@@ -2,11 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
+
 use App\Person;
 use App\Email;
 use App\Telephone;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class PersonController extends Controller
 {
@@ -27,7 +29,13 @@ class PersonController extends Controller
      */
     public function index()
     {
-        $people = Person::orderBy('created_at', 'desc')->paginate(10);
+        if (Gate::denies('view_person')) {
+            abort(403);
+        }
+
+        $user = auth()->user();
+        $people = Person::where('user_id', $user->id)->orderBy('created_at', 'desc')->paginate(10);
+
         return view('person.index', compact('people'));
     }
 
@@ -80,7 +88,7 @@ class PersonController extends Controller
 
             $telephone->phone = $request->has('phones.'. $i .'.phone') ?
                 $request->input('phones.'. $i .'.phone') : '';
-            
+
             $telephone->person()->associate($person);
             $telephone->save();
         }
@@ -108,6 +116,12 @@ class PersonController extends Controller
      */
     public function edit(Person $person)
     {
+        if (Gate::denies('update_person')) {
+            abort(403);
+        }
+
+        // $this->authorize('view', $person);
+
         return view('person.edit', compact('person'));
     }
 
@@ -140,7 +154,7 @@ class PersonController extends Controller
 
             $email->email = $request->has('emails.'. $i .'.email') ?
                 $request->input('emails.'. $i .'.email') : '';
-            
+
             $email->person()->associate($person);
             $email->save();
         }
@@ -151,7 +165,7 @@ class PersonController extends Controller
 
             $telephone->phone = $request->has('phones.'. $i .'.phone') ?
                 $request->input('phones.'. $i .'.phone') : '';
-            
+
             $telephone->person()->associate($person);
             $telephone->save();
         }
